@@ -16,7 +16,9 @@
 """
 
 import logging, re, time
-from pifkoin.bitcoind import Bitcoind, BitcoindException
+#from pifkoin.bitcoind import Bitcoind, BitcoindException
+import theholyrogerrpc, theholyrogerrpc.connection
+
 from httplib import CannotSendRequest
 
 lg = logging.getLogger('cointipbot')
@@ -43,7 +45,8 @@ class CtbCoin(object):
         # connect to coin daemon
         try:
             lg.debug("CtbCoin::__init__(): connecting to %s...", self.conf.name)
-            self.conn = Bitcoind(self.conf.config_file, rpcserver=self.conf.config_rpcserver)
+            #self.conn = Bitcoind(self.conf.config_file, rpcserver=self.conf.config_rpcserver)
+						self.conn = theholyrogerrpc.connect_to_local()
         except BitcoindException as e:
             lg.error("CtbCoin::__init__(): error connecting to %s using %s: %s", self.conf.name, self.conf.config_file, e)
             raise
@@ -52,8 +55,8 @@ class CtbCoin(object):
         time.sleep(0.5)
 
         # set transaction fee
-        lg.info("Setting tx fee of %f", self.conf.txfee)
-        self.conn.settxfee(self.conf.txfee)
+        #lg.info("Setting tx fee of %f", self.conf.txfee)
+        #self.conn.settxfee(self.conf.txfee)
 
     def getbalance(self, _user = None, _minconf = None):
         """
@@ -166,16 +169,8 @@ class CtbCoin(object):
 
         while True:
             try:
-                # Unlock wallet for keypoolrefill
-                if hasattr(self.conf, 'walletpassphrase'):
-                    self.conn.walletpassphrase(self.conf.walletpassphrase, 1)
-
                 # Generate new address
                 addr = self.conn.getnewaddress(user)
-
-                # Lock wallet
-                if hasattr(self.conf, 'walletpassphrase'):
-                    self.conn.walletlock()
 
                 if not addr:
                     raise Exception("CtbCoin::getnewaddr(%s): empty addr", user)
