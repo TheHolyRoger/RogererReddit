@@ -4,6 +4,7 @@ auth:
     host: localhost
     port: 3306
     dbname: mysqldb
+		dbtype: 'mysql+mysqldb' # 'mysql+mysqldb' | 'postgresql+psycopg2' etc
 
 sql:
   globalstats:
