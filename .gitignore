@@ -36,5 +36,4 @@ nosetests.xml
 
 # cointipbot
 *.log*
-pifkoin
 conf

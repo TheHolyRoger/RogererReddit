@@ -13,12 +13,12 @@ For introduction to and use of ALTcointip bot, see __http://www.reddit.com/r/ALT
 The following Python libraries are necessary to run ALTcointip bot:
 
 * __jinja2__ (http://jinja.pocoo.org/)
-* __pifkoin__ (https://github.com/dpifke/pifkoin)
+* __theholyroger-python__ (https://github.com/TheHolyRoger/theholyroger-python)
 * __praw__ (https://github.com/praw-dev/praw)
 * __sqlalchemy__ (http://www.sqlalchemy.org/)
 * __yaml__ (http://pyyaml.org/wiki/PyYAML)
 
-You can install `jinja2`, `praw`, `sqlalchemy`, and `yaml` using `pip` (Python Package Index tool) or a package manager in your OS. For `pifkoin`, you'll need to copy or symlink its "python" subdirectory to `src/ctb/pifkoin`.
+You can install `jinja2`, `praw`, `sqlalchemy`, and `yaml` using `pip` (Python Package Index tool) or a package manager in your OS. For `theholyroger-python`, you'll need to clone it from github and install.
 
 ### Database
 

@@ -16,7 +16,6 @@
 """
 
 import logging, re, time
-#from pifkoin.bitcoind import Bitcoind, BitcoindException
 import theholyrogerrpc, theholyrogerrpc.connection
 
 from httplib import CannotSendRequest
