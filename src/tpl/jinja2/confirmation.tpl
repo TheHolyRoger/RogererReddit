@@ -4,7 +4,7 @@
 {% if a.u_to: %}
 {%   set user_to_fmt = " ^/u/%s" % a.u_to.name %}
 {%   if ctb.conf.reddit.stats.enabled: %}
-{%     set stats_user_to_fmt = " ^^[[stats]](%s_%s)" % (ctb.conf.reddit.stats.url, a.u_to.name) %}
+{%   set stats_user_to_fmt = " ^^[[stats]](%s_%s)" % (ctb.conf.reddit.stats.url, a.u_to.name) %}
 {%   endif %}
 {% endif %}
 {% if a.addr_to: %}
@@ -14,19 +14,19 @@
 {% endif %}
 {% if a.coinval: %}
 {%   if a.coinval < 0.0001 %}
-{%     set coin_amount = ( a.coinval * 100000000.0 ) %}
-{%     set amount_prefix_short = "s" %}
-{%     set amount_prefix_long = "satoshi" %}
+{%   set coin_amount = ( a.coinval * 100000000.0 ) %}
+{%   set amount_prefix_short = "s" %}
+{%   set amount_prefix_long = "satoshi" %}
 {%   elif a.coinval < 1.0 %}
-{%     set coin_amount = ( a.coinval * 1000.0 ) %}
-{%     set amount_prefix_short = "m" %}
-{%     set amount_prefix_long = "milli" %}
+{%   set coin_amount = ( a.coinval * 1000.0 ) %}
+{%   set amount_prefix_short = "m" %}
+{%   set amount_prefix_long = "milli" %}
 {%   elif a.coinval >= 1000.0 %}
-{%     set coin_amount = ( a.coinval / 1000.0 ) %}
-{%     set amount_prefix_short = "K" %}
-{%     set amount_prefix_long = "kilo" %}
+{%   set coin_amount = ( a.coinval / 1000.0 ) %}
+{%   set amount_prefix_short = "K" %}
+{%   set amount_prefix_long = "kilo" %}
 {%   else %}
-{%     set coin_amount = a.coinval %}
+{%   set coin_amount = a.coinval %}
 {%   endif %}
 {%   set coin_name = ctb.conf.coins[a.coin].name %}
 {%   set coin_symbol = ctb.conf.coins[a.coin].symbol %}
@@ -47,19 +47,19 @@
 {% if a.type == 'givetip' and a.keyword and ctb.conf.keywords[a.keyword].message %}
 {%   set txt = ctb.conf.keywords[a.keyword].message %}
 {%   if stats_user_from_fmt %}
-{%     set txt = txt | replace("{USER_FROM}", user_from_fmt + stats_user_from_fmt) %}
+{%   set txt = txt | replace("{USER_FROM}", user_from_fmt + stats_user_from_fmt) %}
 {%   else %}
-{%     set txt = txt | replace("{USER_FROM}", user_from_fmt) %}
+{%   set txt = txt | replace("{USER_FROM}", user_from_fmt) %}
 {%   endif %}
 {%   if stats_user_to_fmt %}
-{%     set txt = txt | replace("{USER_TO}", user_to_fmt + stats_user_to_fmt) %}
+{%   set txt = txt | replace("{USER_TO}", user_to_fmt + stats_user_to_fmt) %}
 {%   else %}
-{%     set txt = txt | replace("{USER_TO}", user_to_fmt) %}
+{%   set txt = txt | replace("{USER_TO}", user_to_fmt) %}
 {%   endif %}
 {%   if fiat_amount_fmt %}
-{%     set txt = txt | replace("{AMOUNT}", coin_amount_fmt + fiat_amount_fmt) %}
+{%   set txt = txt | replace("{AMOUNT}", coin_amount_fmt + fiat_amount_fmt) %}
 {%   else %}
-{%     set txt = txt | replace("{AMOUNT}", coin_amount_fmt) %}
+{%   set txt = txt | replace("{AMOUNT}", coin_amount_fmt) %}
 {%   endif %}
 {{   txt }}
 {% else %}

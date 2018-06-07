@@ -10,9 +10,9 @@ coin|deposit address|balance
 {%   set address_fmt = "%s ^[[ex]](%s%s) ^[[qr]](%s%s)" % (i.address, ctb.conf.coins[i.coin].explorer.address, i.address, ctb.conf.misc.qr_service_url, i.address) %}
 {%   set coin_bal_fmt = "%.9g" % i.balance %}
 {%   if i.fiat_balance %}
-{%     set fiat_bal_fmt = " ^%s%.2f" % ( i.fiat_symbol, i.fiat_balance ) %}
+{%   set fiat_bal_fmt = " ^%s%.2f" % ( i.fiat_symbol, i.fiat_balance ) %}
 {%   else %}
-{%     set fiat_bal_fmt = "" %}
+{%   set fiat_bal_fmt = "" %}
 {%   endif %}
 __{{ name_fmt }}__|{{ address_fmt }}|__{{ coin_bal_fmt }}{{ fiat_bal_fmt }}__
 {% endfor %}
