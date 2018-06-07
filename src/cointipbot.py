@@ -106,11 +106,13 @@ class CointipBot(object):
         """
         lg.debug('CointipBot::connect_db(): connecting to database...')
 
-        dsn = "%s://%s:%s@%s:%s/%s?charset=utf8" % (self.conf.db.auth.dbtype, self.conf.db.auth.user, self.conf.db.auth.password, self.conf.db.auth.host, self.conf.db.auth.port, self.conf.db.auth.dbname)
+        dsn = "%s://%s:%s@%s:%s/%s" % (self.conf.db.auth.dbtype, self.conf.db.auth.user, self.conf.db.auth.password, self.conf.db.auth.host, self.conf.db.auth.port, self.conf.db.auth.dbname)
+        lg.debug("CointipBot::connect_db(): connecting to database... %s" % (dsn))
         dbobj = ctb_db.CointipBotDatabase(dsn)
 
         try:
             conn = dbobj.connect()
+            conn.set_client_encoding('UTF8')
         except Exception as e:
             lg.error("CointipBot::connect_db(): error connecting to database: %s", e)
             sys.exit(1)
