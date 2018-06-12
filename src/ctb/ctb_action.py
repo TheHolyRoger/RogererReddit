@@ -632,8 +632,8 @@ class CtbAction(object):
       return False
 
     # Check if action exists
-    #if not check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=False, only_pending=True):
-    #  is_pending=False
+    if not check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=False, only_pending=True):
+      is_pending=False
 
     # Validate action
     if not self.validate(is_pending=is_pending):
