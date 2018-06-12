@@ -629,7 +629,7 @@ class CtbAction(object):
       return False
 
     # Check if action exists
-    if not check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=False):
+    if not check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=False, only_pending=True):
       is_pending=False
 
     # Validate action
@@ -1181,7 +1181,7 @@ def eval_comment(comment, ctb):
   lg.debug("< eval_comment() DONE (no match)")
   return None
 
-def check_action(atype=None, state=None, coin=None, msg_id=None, created_utc=None, from_user=None, to_user=None, subr=None, ctb=None, is_pending=False):
+def check_action(atype=None, state=None, coin=None, msg_id=None, created_utc=None, from_user=None, to_user=None, subr=None, ctb=None, is_pending=False, only_pending=False):
   """
   Return True if action with given attributes exists in database
   """
@@ -1210,6 +1210,8 @@ def check_action(atype=None, state=None, coin=None, msg_id=None, created_utc=Non
       sql_terms.append("subreddit = '%s'" % subr)
     if is_pending:
       sql_terms.append("state <> 'pending'")
+    elif only_pending:
+      sql_terms.append("state = 'pending'")
     sql += ' AND '.join(sql_terms)
 
   try:
