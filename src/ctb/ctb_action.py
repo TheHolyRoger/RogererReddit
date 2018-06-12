@@ -1305,7 +1305,7 @@ def get_actions(atype=None, state=None, coin=None, msg_id=None, created_utc=None
                    ctb=ctb,
                    msg_id=m['msg_id']))
 
-      lg.debug("< get_actions() DONE (yes)")
+      lg.debug("< get_actions() DONE (yes) %s", r)
       return r
 
     except Exception as e:
