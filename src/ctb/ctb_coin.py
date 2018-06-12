@@ -17,6 +17,7 @@
 
 import logging, re, time
 import theholyrogerrpc, theholyrogerrpc.connection
+from theholyrogerrpc.exceptions import TheHolyRogerException
 
 from httplib import CannotSendRequest
 
@@ -46,7 +47,7 @@ class CtbCoin(object):
       lg.debug("CtbCoin::__init__(): connecting to %s...", self.conf.name)
       #self.conn = Bitcoind(self.conf.config_file, rpcserver=self.conf.config_rpcserver)
       self.conn = theholyrogerrpc.connect_to_local()
-    except BitcoindException as e:
+    except TheHolyRogerException as e:
       lg.error("CtbCoin::__init__(): error connecting to %s using %s: %s", self.conf.name, self.conf.config_file, e)
       raise
 
@@ -70,7 +71,7 @@ class CtbCoin(object):
 
     try:
       balance = self.conn.getbalance(user, minconf)
-    except BitcoindException as e:
+    except TheHolyRogerException as e:
       lg.error("CtbCoin.getbalance(): error getting %s (minconf=%s) balance for %s: %s", self.conf.name, minconf, user, e)
       raise
 
@@ -177,8 +178,8 @@ class CtbCoin(object):
         time.sleep(0.1)
         return str(addr)
 
-      except BitcoindException as e:
-        lg.error("CtbCoin::getnewaddr(%s): BitcoindException: %s", user, e)
+      except TheHolyRogerException as e:
+        lg.error("CtbCoin::getnewaddr(%s): TheHolyRogerException: %s", user, e)
         raise
       except CannotSendRequest as e:
         if counter < 3:

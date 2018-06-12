@@ -233,7 +233,7 @@ class CtbUser(object):
     # Add coin addresses to database
     for c in new_addrs:
       try:
-        sql_addr = "REPLACE INTO t_addrs (username, coin, address) VALUES (%s, %s, %s)"
+        sql_addr = "INSERT INTO t_addrs (username, coin, address) VALUES (%s, %s, %s)"
         mysqlexec = self.ctb.db.execute(sql_addr, (self.name.lower(), c, new_addrs[c]))
         if mysqlexec.rowcount <= 0:
           # Undo change to database
