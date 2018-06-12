@@ -220,6 +220,8 @@ class CtbAction(object):
 
     conn = self.ctb.db
     sql = "UPDATE t_action SET state=%s WHERE type=%s AND msg_id=%s"
+    
+    lg.debug("> CtbAction::update(%s, %s, %s)", state, self.type, self.msg_id)
 
     try:
       mysqlexec = conn.execute(sql, (state, self.type, self.msg_id))
