@@ -191,6 +191,8 @@ class CtbUser(object):
     Send a Reddit message to user
     """
     lg.debug("> CtbUser::tell(%s)", self.name)
+    
+    #return True
 
     if not bool(subj) or not bool(msg):
       raise Exception("CtbUser::tell(%s): subj or msg not set", self.name)
@@ -233,8 +235,13 @@ class CtbUser(object):
     # Add coin addresses to database
     for c in new_addrs:
       try:
-        sql_addr = "INSERT INTO t_addrs (username, coin, address) VALUES (%s, %s, %s)"
-        mysqlexec = self.ctb.db.execute(sql_addr, (self.name.lower(), c, new_addrs[c]))
+        sql_check = "SELECT * FROM t_addrs WHERE username = %s AND coin = %s"
+        mysqlrow = self.ctb.db.execute(sql_check, (self.name.lower(), c))
+        if mysqlrow.rowcount <= 0:
+          sql_addr = "INSERT INTO t_addrs (address, username, coin) VALUES (%s, %s, %s)"
+        else:
+          sql_addr = "UPDATE t_addrs SET address = %s WHERE username = %s AND coin = %s"
+        mysqlexec = self.ctb.db.execute(sql_addr, (new_addrs[c], self.name.lower(), c))
         if mysqlexec.rowcount <= 0:
           # Undo change to database
           delete_user(_username=self.name.lower(), _db=self.ctb.db)

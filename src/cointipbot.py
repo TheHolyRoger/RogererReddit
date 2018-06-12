@@ -145,6 +145,8 @@ class CointipBot(object):
     b = ctb_user.CtbUser(name=self.conf.reddit.auth.user.lower(), ctb=self)
     if not b.is_registered():
       b.register()
+      
+    #self.bot = b
 
     # Ensure (total pending tips) < (CointipBot's balance)
     for c in self.coins:
@@ -329,7 +331,8 @@ class CointipBot(object):
       updated_last_processed_time = 0
 
       # Fetch comments from subreddits
-      my_comments = ctb_misc.praw_call(self.conf.reddit.subreddits.get_comments, limit=self.conf.reddit.scan.batch_limit)
+      lg.debug("CointipBot::praw_call(): %s" % (self.conf.reddit.subreddits))
+      my_comments = ctb_misc.praw_call(self.conf.reddit.subreddits.comments, limit=self.conf.reddit.scan.batch_limit)
 
       # Match each comment against regex
       counter = 0
@@ -470,7 +473,10 @@ class CointipBot(object):
     Quick method to return _fiat value of _coin
     """
     try:
-      value = self.runtime['ev'][_coin]['btc'] * self.runtime['ev']['btc'][_fiat]
+      if (_coin =='roger') or (_coin =='ROGER'):
+        value = 1
+      else:
+        value = self.runtime['ev'][_coin]['btc'] * self.runtime['ev']['btc'][_fiat]
     except KeyError as e:
       lg.warning("CointipBot::coin_value(%s, %s): KeyError", _coin, _fiat)
       value = 0.0

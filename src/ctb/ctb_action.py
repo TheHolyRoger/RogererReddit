@@ -183,8 +183,8 @@ class CtbAction(object):
         self.fiat = 'usd'
       if not self.fiatval:
         # Determine fiat value
-        if self.ctb.coin_value(self.ctb.conf.coins[self.coin].unit, self.fiat) <= 0.0:
-          raise CtbActionExc("CtbAction::__init__(): coin_value returned 0")
+        #if self.ctb.coin_value(self.ctb.conf.coins[self.coin].unit, self.fiat) <= 0.0:
+        #  raise CtbActionExc("CtbAction::__init__(): coin_value returned 0")
         self.fiatval = self.coinval * self.ctb.coin_value(self.ctb.conf.coins[self.coin].unit, self.fiat)
       elif not self.coinval:
         # Determine coin value
@@ -211,7 +211,7 @@ class CtbAction(object):
     """
     Update action state in database
     """
-    lg.debug("> CtbAction::update(%s)", state)
+    lg.debug("> CtbAction::update(%s, %s, %s)", state, self.type, self.msg_id)
 
     if not state:
       raise Exception("CtbAction::update(): state is null")
@@ -261,7 +261,7 @@ class CtbAction(object):
            self.txid,
            self.coin,
            self.fiat,
-           self.subreddit,
+           str(self.subreddit),
            self.msg.id,
            self.msg.permalink if hasattr(self.msg, 'permalink') else None))
       if mysqlexec.rowcount <= 0:
@@ -304,6 +304,15 @@ class CtbAction(object):
 
     if self.type == 'decline':
       return self.decline()
+
+    #if self.type == 'faucet':
+    #  self.u_to = self.u_from
+    #  self.u_from = self.bot
+    #  result = self.givetip()
+    #  ctb_stats.update_user_stats(ctb=self.ctb, username=self.u_from.name)
+    #  if self.u_to:
+    #    ctb_stats.update_user_stats(ctb=self.ctb, username=self.u_to.name)
+    #  return result
 
     if self.type == 'givetip':
       result = self.givetip()
@@ -611,13 +620,17 @@ class CtbAction(object):
     """
     Initiate tip
     """
-    lg.debug("> CtbAction::givetip()")
+    lg.debug("> CtbAction::givetip() %s", is_pending)
 
     # Check if action has been processed
     if check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=is_pending):
       # Found action in database, returning
       lg.warning("CtbAction::givetip(): duplicate action %s (msg.id %s), ignoring", self.type, self.msg.id)
       return False
+
+    # Check if action exists
+    if not check_action(atype=self.type, msg_id=self.msg_id, ctb=self.ctb, is_pending=False):
+      is_pending=False
 
     # Validate action
     if not self.validate(is_pending=is_pending):
@@ -1115,7 +1128,7 @@ def eval_comment(comment, ctb):
 
     # Attempt a match
     rg = re.compile(r.regex, re.IGNORECASE|re.DOTALL)
-    #lg.debug("eval_comment(): matching '%s' with <%s>", comment.body, r.regex)
+    lg.debug("eval_comment(): matching '%s' with <%s>", comment.body, r.regex)
     m = rg.search(body)
 
     if m:
@@ -1141,6 +1154,8 @@ def eval_comment(comment, ctb):
       if u_to and comment.author.name.lower() == u_to.lower():
         lg.warning("eval_comment(): comment.author.name == u_to, ignoring comment", comment.author.name)
         return None
+      
+      u_to = u_to.replace("\-","-")
 
       # Return CtbAction instance with given variables
       lg.debug("eval_comment(): creating action %s: to_user=%s, to_addr=%s, amount=%s, coin=%s, fiat=%s" % (r.action, u_to, to_addr, amount, r.coin, r.fiat))
@@ -1258,7 +1273,9 @@ def get_actions(atype=None, state=None, coin=None, msg_id=None, created_utc=None
         # Get PRAW message/comment pointer (msg)
         msg = None
         if m['msg_link']:
-          submission = ctb_misc.praw_call(ctb.reddit.submission, m['msg_link'])
+          url = "https://www.reddit.com%s" % (m['msg_link'])
+          lg.debug("get_actions(): url: %s", url)
+          submission = ctb_misc.praw_call(ctb.reddit.submission, url=url)
           if not len(submission.comments) > 0:
             lg.warning("get_actions(): could not fetch msg (deleted?) from msg_link %s", m['msg_link'])
           else:

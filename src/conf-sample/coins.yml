@@ -45,9 +45,9 @@ ltc:
     units: '(ltc|litecoin|litecoins|Ł)'
 
 # The Holy Roger Coin
-ROGER:
+roger:
   enabled: true
-  unit: ROGER
+  unit: roger
   name: TheHolyRogerCoin
   symbol: 'ROGER'
   config_file: '~/.theholyroger/theholyroger.conf'

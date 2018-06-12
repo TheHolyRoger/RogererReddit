@@ -122,17 +122,22 @@ def set_value(conn, param0=None, value0=None):
 
   if param0 == None or value0 == None:
     raise Exception("set_value(): param0 == None or value0 == None")
-  sql = "REPLACE INTO t_values (param0, value0) VALUES (%s, %s)"
+  sql = "SELECT * FROM t_values WHERE param0 = %s"
+  mysqlrow = conn.execute(sql, (param0))
+  if mysqlrow.rowcount <= 0:
+    sql = "INSERT INTO t_values (value0, param0) VALUES (%s, %s)"
+  else:
+    sql = "UPDATE t_values SET value0 = %s WHERE param0 = %s"
 
   try:
 
-    mysqlexec = conn.execute(sql, (param0, value0))
+    mysqlexec = conn.execute(sql, (value0, param0))
     if mysqlexec.rowcount <= 0:
-      lg.error("set_value(): query <%s> didn't affect any rows", sql % (param0, value0))
+      lg.error("set_value(): query <%s> didn't affect any rows", sql % (value0, param0))
       return False
 
   except Exception, e:
-    lg.error("set_value: error executing query <%s>: %s", sql % (param0, value0), e)
+    lg.error("set_value: error executing query <%s>: %s", sql % (value0, param0), e)
     raise
 
   lg.debug("< set_value() DONE")

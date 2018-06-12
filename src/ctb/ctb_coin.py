@@ -55,8 +55,8 @@ class CtbCoin(object):
     time.sleep(0.5)
 
     # set transaction fee
-    #lg.info("Setting tx fee of %f", self.conf.txfee)
-    #self.conn.settxfee(self.conf.txfee)
+    lg.info("Setting tx fee of %f", self.conf.txfee)
+    self.conn.settxfee(self.conf.txfee)
 
   def getbalance(self, _user = None, _minconf = None):
     """
@@ -71,6 +71,7 @@ class CtbCoin(object):
 
     try:
       balance = self.conn.getbalance(user, minconf)
+      lg.debug("CtbCoin.getbalance(): %s has %s", user, str(balance))
     except TheHolyRogerException as e:
       lg.error("CtbCoin.getbalance(): error getting %s (minconf=%s) balance for %s: %s", self.conf.name, minconf, user, e)
       raise
