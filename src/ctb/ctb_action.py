@@ -1128,7 +1128,7 @@ def eval_comment(comment, ctb):
 
     # Attempt a match
     rg = re.compile(r.regex, re.IGNORECASE|re.DOTALL)
-    lg.debug("eval_comment(): matching '%s' with <%s>", comment.body, r.regex)
+    #lg.debug("eval_comment(): matching '%s' with <%s>", comment.body, r.regex)
     m = rg.search(body)
 
     if m:
