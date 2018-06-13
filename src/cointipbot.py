@@ -88,23 +88,23 @@ class CointipBot(object):
         lg.debug("CointipBot::parse_config(): reading %s%s.yml", prefix, i)
         with open(prefix + i + '.yml') as file:
           conf[i] = yaml.load(file)
-        if file:
-          file.close()
+        #if file:
+        #  file.close()
     except IOError as e:
-      if file:
-        file.close()
+      #if file:
+      #  file.close()
       lg.error("CointipBot::parse_config(): error reading config file: %s", e)
       sys.exit(1)
     except yaml.YAMLError as e:
-      if file:
-        file.close()
+      #if file:
+      #  file.close()
       lg.error("CointipBot::parse_config(): error reading config file: %s", e)
       if hasattr(e, 'problem_mark'):
         lg.error("CointipBot::parse_config(): error position: (line %s, column %s)", e.problem_mark.line+1, e.problem_mark.column+1)
       sys.exit(1)
-    finally:
-      if file:
-        file.close()
+    #finally:
+    #  if file:
+    #    file.close()
 
     lg.info('CointipBot::parse_config(): config files has been parsed')
     return ctb_misc.DotDict(conf)
