@@ -1280,12 +1280,12 @@ def get_actions(atype=None, state=None, coin=None, msg_id=None, created_utc=None
         if m['msg_link']:
           url = "https://www.reddit.com%s" % (m['msg_link'])
           lg.debug("get_actions(): url: %s", url)
-          submission = ctb_misc.praw_call(ctb.reddit.submission, url=url)
-          if not len(submission.comments) > 0:
+          comment = ctb_misc.praw_call(ctb.reddit.comment, url=url)
+          if not len(comment.body) > 0:
             lg.warning("get_actions(): could not fetch msg (deleted?) from msg_link %s", m['msg_link'])
           else:
             # msg points to comment that initiated the action
-            msg = submission.comments[0]
+            msg = comment
             # check if msg.author is present
             if not msg.author:
               lg.warning("get_actions(): could not fetch msg.author (deleted?) from msg_link %s", m['msg_link'])
