@@ -20,7 +20,7 @@ class Main():
     #self.cb = cointipbot.CointipBot()
 
     self.cb.main()
-    self.shutdown = self.cb.conf.shutdown
+    self.shutdown = self.cb.shutdown
 
 def secondary(main):
   try:
