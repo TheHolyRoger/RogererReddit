@@ -32,7 +32,10 @@ def secondary(main):
     time.sleep(7)
     print('Resumed')
 
+shutdown = False
+
 while not shutdown:
   main = Main()
 
   secondary(main)
+  shutdown = main.shutdown
