@@ -63,6 +63,7 @@ class CtbCoin(object):
     Get user's tip or withdraw balance. _minconf is number of confirmations to use.
     Returns (float) balance
     """
+    self.conn = theholyrogerrpc.connect_to_local()
     lg.debug("CtbCoin::getbalance(%s, %s)", _user, _minconf)
 
     user = self.verify_user(_user=_user)
