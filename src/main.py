@@ -31,6 +31,7 @@ def secondary(main):
     print('Resuming in 7 seconds')
     time.sleep(7)
     print('Resumed')
+    sys.exit(1)
 
 # shutdown = False
 
