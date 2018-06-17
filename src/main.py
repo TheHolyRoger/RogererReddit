@@ -2,6 +2,7 @@ import cointipbot, traceback, time
 
 class Main():
   cb = None
+  shutdown = False
 
   def __init__(self):
     '''
@@ -19,6 +20,7 @@ class Main():
     #self.cb = cointipbot.CointipBot()
 
     self.cb.main()
+    self.shutdown = self.cb.conf.shutdown
 
 def secondary(main):
   try:
@@ -30,7 +32,7 @@ def secondary(main):
     time.sleep(7)
     print('Resumed')
 
-while True:
+while not shutdown:
   main = Main()
 
   secondary(main)
