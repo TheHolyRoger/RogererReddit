@@ -1,4 +1,4 @@
-import cointipbot, traceback, time
+import cointipbot, traceback, time, sys
 
 class Main():
   cb = None
@@ -31,6 +31,7 @@ def secondary(main):
     print('Resuming in 7 seconds')
     time.sleep(7)
     print('Resumed')
+    sys.exit(1)
 
 # shutdown = False
 
