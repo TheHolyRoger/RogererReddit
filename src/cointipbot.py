@@ -594,6 +594,7 @@ class CointipBot(object):
 
       shutdown_file = "/opt/RogererReddit/shutdown"
       if os.path.exists(shutdown_file):
+        self.shutdown = True
         lg.debug("CointipBot::main(): Shutting down...")
         sys.exit(1)
 
