@@ -19,6 +19,7 @@
 from ctb import ctb_action, ctb_coin, ctb_db, ctb_exchange, ctb_log, ctb_misc, ctb_user
 
 import gettext, locale, logging, praw, smtplib, sys, time, traceback, yaml
+from pathlib import Path
 from email.mime.text import MIMEText
 from jinja2 import Environment, PackageLoader
 
@@ -590,6 +591,11 @@ class CointipBot(object):
       # Check subreddit comments for tips
       if self.conf.reddit.scan.my_subreddits or hasattr(self.conf.reddit.scan, 'these_subreddits'):
           self.check_subreddits()
+
+      shutdown_file = Path("/opt/RogererReddit/shutdown")
+      if shutdown_file.is_file():
+        lg.debug("CointipBot::main(): Shutting down...")
+        sys.exit(1)
 
       # Sleep
       lg.debug("CointipBot::main(): sleeping for %s seconds...", self.conf.misc.times.sleep_seconds)
