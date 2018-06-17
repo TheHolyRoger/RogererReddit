@@ -13,10 +13,10 @@ class Main():
     May make a pull request to pifkoin to resolve this. If this does get resolved in pifkoin or you locally modify your pifkoin copy to resolve this, you can
     uncomment the following line and comment the self.cb assignment in main(). This will ensure we do not need to reinstantiate CoinbotTip in every iteration.
     '''
-    # self.cb = cointipbot.CointipBot()
+    self.cb = cointipbot.CointipBot()
 
   def main(self):
-    self.cb = cointipbot.CointipBot()
+    #self.cb = cointipbot.CointipBot()
 
     self.cb.main()
 
