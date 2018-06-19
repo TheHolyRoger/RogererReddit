@@ -24,6 +24,8 @@ from email.mime.text import MIMEText
 from jinja2 import Environment, PackageLoader
 
 from requests.exceptions import HTTPError, ConnectionError, Timeout
+from prawcore.exceptions import RequestException
+from prawcore.exceptions import ResponseException
 from praw.exceptions import APIException, ClientException
 from socket import timeout
 
@@ -275,8 +277,12 @@ class CointipBot(object):
         # Mark message as read
         ctb_misc.praw_call(m.mark_read)
 
-    except (HTTPError, ConnectionError, Timeout, timeout) as e:
+    except (HTTPError, ConnectionError, Timeout, timeout, ResponseException) as e:
       lg.warning("CointipBot::check_inbox(): Reddit is down (%s), sleeping", e)
+      time.sleep(self.conf.misc.times.sleep_seconds)
+      pass
+    except (RequestException) as e:
+      lg.warning("CointipBot::check_inbox(): Failed to log in to reddit (%s), sleeping", e)
       time.sleep(self.conf.misc.times.sleep_seconds)
       pass
     except Exception as e:
