@@ -393,7 +393,7 @@ class CointipBot(object):
       if counter >= self.conf.reddit.scan.batch_limit - 1:
         lg.warning("CointipBot::check_subreddits(): conf.reddit.scan.batch_limit (%s) was not large enough to process all comments", self.conf.reddit.scan.batch_limit)
 
-    except (HTTPError, timeout) as e:
+    except (HTTPError, ConnectionError, Timeout, timeout, ResponseException) as e:
       lg.warning("CointipBot::check_subreddits(): Reddit is down (%s), sleeping", e)
       time.sleep(self.conf.misc.times.sleep_seconds)
       pass
