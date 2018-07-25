@@ -85,6 +85,7 @@ class CtbCoin(object):
     Transfer (move) coins to user
     Returns (bool)
     """
+    self.conn = theholyrogerrpc.connect_to_local()
     lg.debug("CtbCoin::sendtouser(%s, %s, %.9f)", _userfrom, _userto, _amount)
 
     userfrom = self.verify_user(_user=_userfrom)
@@ -108,6 +109,7 @@ class CtbCoin(object):
     Send coins to address
     Returns (string) txid
     """
+    self.conn = theholyrogerrpc.connect_to_local()
     lg.debug("CtbCoin::sendtoaddr(%s, %s, %.9f)", _userfrom, _addrto, _amount)
 
     userfrom = self.verify_user(_user=_userfrom)
@@ -146,6 +148,7 @@ class CtbCoin(object):
     Verify that _addr is a valid coin address
     Returns (bool)
     """
+    self.conn = theholyrogerrpc.connect_to_local()
     lg.debug("CtbCoin::validateaddr(%s)", _addr)
 
     addr = self.verify_addr(_addr=_addr)
@@ -165,6 +168,7 @@ class CtbCoin(object):
     Returns (string) address
     """
 
+    self.conn = theholyrogerrpc.connect_to_local()
     user = self.verify_user(_user=_user)
     addr = ""
     counter = 0
